@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sonnette Alerte</title>
+  <style>
+    body.flash {
+      background-color: white;
+      animation: flashAnim 0.5s infinite alternate;
+    }
+    @keyframes flashAnim {
+      from { background: white; }
+      to { background: #e6e6e6; }
+    }
+  </style>
+</head>
+<body>
+  <h1>En attente de la sonnette...</h1>
+
+  <script>
+    const socket = new WebSocket('wss://TonServeurWebSocket');
+
+    socket.onmessage = function(event) {
+      if (event.data === "DOOR_BELL") {
+        document.body.classList.add('flash');
+        const audio = new Audio('sonnette.mp3');
+        audio.loop = true;
+        audio.play();
+      }
+    };
+  </script>
+</body>
+</html>
